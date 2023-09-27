@@ -18,7 +18,6 @@ public class AddPokemonRequest {
     private Double prezzoAcquisto;
 
     private LocalDateTime dataAcquisto;
-    @NonNull
     private LocalDateTime dataRegistrazione;
     @NonNull
     private PkmEnum statoOggetto;

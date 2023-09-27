@@ -1,13 +1,18 @@
 package com.the.simone.service;
 
+import com.the.simone.exception.PkmException;
 import com.the.simone.model.entity.PkmAcquisto;
 import com.the.simone.model.request.AddPokemonRequest;
 import com.the.simone.model.response.PkmResponse;
 import com.the.simone.repo.PkmAcquistoRepo;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.faulttolerance.Fallback;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 @Slf4j
@@ -19,6 +24,7 @@ public class PkmServices {
 
 
     @Fallback( fallbackMethod = "fallBackPkmAcquisto")
+    @Transactional
     public PkmResponse addPokmAcquisto(AddPokemonRequest request){
 
         log.info("Raw request before addPokmAcquisto service execution: {}",request);
@@ -44,10 +50,41 @@ public class PkmServices {
 
         return response;
     }
+    public PkmAcquisto getPokemonAcquisto(String nome){
+
+        var entity = pkmAcquistoRepo.findByNome(nome);
+
+        if (entity.isEmpty())
+            throw new PkmException("No acquisto found with this name: "+nome,null,null);
+
+        return entity.get();
+    }
+
+    public List<PkmAcquisto> getAllPkmAcquisti(){
+        try {
+            return pkmAcquistoRepo.findAll().stream().toList();
+        }catch (Exception e){
+            log.error("Erro on getAllPkmAcquisti with error: {}",e);
+            throw new PkmException("Error on getAllPkmAcquisti",e,null);
+        }
+    }
+
+    public String deletePkmAcquisto(String nome){
+
+        pkmAcquistoRepo.deleteByNome(nome);
+        return "Eliminato con successo";
+    }
     private PkmAcquisto mapRequestToPkmAcquisto(AddPokemonRequest request){
 
         var response = new PkmAcquisto();
-
+        response.setNome(request.getNome());
+        response.setCodice(request.getCodice());
+        response.setDataAcquisto(request.getDataAcquisto());
+        response.setCodice(request.getCodice());
+        response.setPrezzoAcquisto(request.getPrezzoAcquisto());
+        response.setStatoOggetto(request.getStatoOggetto().value());
+        response.setTipoItem(request.getTipoItem().value());
+        response.setDataRegistrazione(LocalDateTime.now());
 
         return response;
     }

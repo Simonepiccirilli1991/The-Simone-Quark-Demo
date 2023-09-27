@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum PkmEnum {
 
-    SEALED_BOX("Sealed item"),
+    SEALED_BOX("Sealed box"),
     SINGLE_CARD("Single card"),
     SEALED("Sealed item"),
     GOOD("Good condition card"),
