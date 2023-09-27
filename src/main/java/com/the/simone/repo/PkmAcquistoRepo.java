@@ -1,11 +1,15 @@
 package com.the.simone.repo;
 
 import com.the.simone.model.entity.PkmAcquisto;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Optional;
 
-public interface PkmAcquistoRepo extends PanacheRepository<PkmAcquisto> {
+@ApplicationScoped
+public class PkmAcquistoRepo implements PanacheRepositoryBase<PkmAcquisto, Long> {
 
-    Optional<PkmAcquisto> findByNome(String nome);
+    public Optional<PkmAcquisto> findByNome(String nome){
+        return Optional.ofNullable(find("nome",nome).firstResult());
+    };
 }
