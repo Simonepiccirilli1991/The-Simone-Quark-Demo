@@ -3,14 +3,19 @@ package com.the.simone.service;
 import com.the.simone.model.entity.PkmAcquisto;
 import com.the.simone.model.request.AddPokemonRequest;
 import com.the.simone.model.response.PkmResponse;
+import com.the.simone.repo.PkmAcquistoRepo;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.core.Response;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 
 @ApplicationScoped
 @Slf4j
 public class PkmServices {
+
+
+    @Inject
+    PkmAcquistoRepo pkmAcquistoRepo;
 
 
     @Fallback( fallbackMethod = "fallBackPkmAcquisto")
@@ -20,8 +25,13 @@ public class PkmServices {
 
         var entity = mapRequestToPkmAcquisto(request);
 
-
-        return new PkmResponse();
+        try{
+            pkmAcquistoRepo.persist(entity);
+            return new PkmResponse("Acquisto salvato con successo",true,0);
+        }catch (Exception e){
+            log.error("Error on addPokmAcquisto service with error: {}",e);
+            throw new RuntimeException();
+        }
     }
 
     public PkmResponse fallBackPkmAcquisto(AddPokemonRequest request){
