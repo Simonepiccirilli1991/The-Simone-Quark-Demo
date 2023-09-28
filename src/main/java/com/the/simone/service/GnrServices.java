@@ -4,6 +4,7 @@ import com.the.simone.exception.GnrException;
 import com.the.simone.model.entity.GnrAcquisto;
 import com.the.simone.model.request.AddGenericRequest;
 import com.the.simone.model.response.GnrResponse;
+import io.quarkus.runtime.util.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class GnrServices {
         log.info("Raw request before addGnrAcquisto service executetion: {}",request);
 
         try {
-            var entity = mapRequestToGneAcquisto(request);
+            var entity = mapRequestToGnrAcquisto(request);
             entity.persist();
 
             return new GnrResponse("Acquisto generico salvato con successo", null);
@@ -47,14 +48,19 @@ public class GnrServices {
             throw new GnrException("Generic Error: {}",e,"Error on getGnrAcquisto service");
         }
     }
-    private GnrAcquisto mapRequestToGneAcquisto(AddGenericRequest request){
+    private GnrAcquisto mapRequestToGnrAcquisto(AddGenericRequest request){
 
         var resp = new GnrAcquisto();
 
         resp.setNote(request.getNote());
         resp.setNome(request.getNome());
         resp.setDescrizione(request.getDescrizione());
-        resp.setPrezzoAcquisto(request.getPrezzoAcquisto());
+        if(StringUtil.isNullOrEmpty(String.valueOf(request.getQuantita())))
+            resp.setQuantita(1);
+        else
+            resp.setQuantita(request.getQuantita());
+
+        resp.setPrezzoSingoloAcquisto(request.getPrezzoSingoloAcquisto());
         resp.setDataRegistrazione(LocalDateTime.now());
 
         return resp;

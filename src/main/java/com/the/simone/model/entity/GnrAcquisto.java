@@ -15,7 +15,8 @@ public class GnrAcquisto extends PanacheEntity {
     private String nome;
     private String note;
     private String descrizione;
-    private Double prezzoAcquisto;
+    private int quantita;
+    private Double prezzoSingoloAcquisto;
     private LocalDateTime dataAcquisto;
     private LocalDateTime dataRegistrazione;
 

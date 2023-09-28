@@ -15,8 +15,8 @@ public class AddPokemonRequest {
     @NonNull
     private PkmEnum tipoItem;
     @NonNull
-    private Double prezzoAcquisto;
-
+    private Double prezzoSingoloAcquisto;
+    private int quantita;
     private LocalDateTime dataAcquisto;
     private LocalDateTime dataRegistrazione;
     @NonNull

@@ -14,7 +14,8 @@ public class AddGenericRequest {
     private String note;
     @NonNull
     private String descrizione;
+    private int quantita;
     @NonNull
-    private Double prezzoAcquisto;
+    private Double prezzoSingoloAcquisto;
     private LocalDateTime dataAcquisto;
 }

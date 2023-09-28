@@ -15,8 +15,9 @@ public class PkmAcquisto {
         private Integer pkmId;
         private String nome;
         private String codice; // puo essere vuoto se box
+        private int quantita;
         private String tipoItem;
-        private Double prezzoAcquisto;
+        private Double prezzoSingoloAcquisto;
         private LocalDateTime dataAcquisto;
         private LocalDateTime dataRegistrazione;
         private String statoOggetto;

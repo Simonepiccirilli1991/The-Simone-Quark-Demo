@@ -5,6 +5,7 @@ import com.the.simone.model.entity.PkmAcquisto;
 import com.the.simone.model.request.AddPokemonRequest;
 import com.the.simone.model.response.PkmResponse;
 import com.the.simone.repo.PkmAcquistoRepo;
+import io.quarkus.runtime.util.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -81,7 +82,11 @@ public class PkmServices {
         response.setCodice(request.getCodice());
         response.setDataAcquisto(request.getDataAcquisto());
         response.setCodice(request.getCodice());
-        response.setPrezzoAcquisto(request.getPrezzoAcquisto());
+        if(StringUtil.isNullOrEmpty(String.valueOf(request.getQuantita())))
+            response.setQuantita(1);
+        else
+            response.setQuantita(request.getQuantita());
+        response.setPrezzoSingoloAcquisto(request.getPrezzoSingoloAcquisto());
         response.setStatoOggetto(request.getStatoOggetto().value());
         response.setTipoItem(request.getTipoItem().value());
         response.setDataRegistrazione(LocalDateTime.now());
