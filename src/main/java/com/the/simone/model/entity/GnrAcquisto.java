@@ -11,7 +11,7 @@ import java.util.Optional;
 @Entity( name = "Acquisto_Generico")
 @Data
 public class GnrAcquisto extends PanacheEntity {
-    //usando sta porcata di panache entity non creo repository, ma istanzio oggetto per accedere ai suoi metodi che comprendono queey db
+    //usando sta porcata di panache entity non creo repository, ma istanzio oggetto per accedere ai suoi metodi che comprendono queery db
     private String nome;
     private String note;
     private String descrizione;
@@ -21,7 +21,7 @@ public class GnrAcquisto extends PanacheEntity {
 
     // custom queey di ricerca per nome
     public Optional<GnrAcquisto> findByNome(String nome){
-        return Optional.of(find("nome",nome).firstResult());
+        return Optional.ofNullable(find("nome",nome).firstResult());
     }
 
     public void deleteByName(String name){

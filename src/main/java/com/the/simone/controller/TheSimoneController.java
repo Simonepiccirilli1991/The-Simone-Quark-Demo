@@ -1,6 +1,8 @@
 package com.the.simone.controller;
 
+import com.the.simone.model.request.AddGenericRequest;
 import com.the.simone.model.request.AddPokemonRequest;
+import com.the.simone.service.GnrServices;
 import com.the.simone.service.PkmServices;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -11,6 +13,8 @@ public class TheSimoneController {
 
     @Inject
     PkmServices pkmServices;
+    @Inject
+    GnrServices gnrServices;
 
     @POST
     @Path("/add/pkm")
@@ -34,5 +38,19 @@ public class TheSimoneController {
     @Path("delete/pkm/{nome}")
     public Response deletePkmItem(@PathParam("nome") String nome){
         return Response.ok(pkmServices.deletePkmAcquisto(nome)).build();
+    }
+
+
+    // Acquisti generici
+    @POST
+    @Path("add/gnr")
+    public Response addGnrAcquisto(AddGenericRequest request){
+        return Response.ok(gnrServices.addGnrAcquisto(request)).build();
+    }
+
+    @GET
+    @Path("get/gnr/{nome}")
+    public Response getGneAcquisto(@PathParam("nome") String nome){
+        return Response.ok(gnrServices.getGnrAcquisto(nome)).build();
     }
 }
